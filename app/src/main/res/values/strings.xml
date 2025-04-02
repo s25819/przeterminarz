@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PrzeTerminarz</string>
+
+    <string name="grocery">Produkty spożywcze</string>
+    <string name="medicine">Lekarstwa</string>
+    <string name="cosmetics">Kosmetyki</string>
+
 </resources>
