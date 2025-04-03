@@ -3,11 +3,8 @@ package pl.edu.pjatk.s25819.przeterminarz.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.databinding.GoodsItemLayoutBinding
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
-import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
-import java.time.LocalDate
 
 class GoodsViewHolder(itemViewBinding: GoodsItemLayoutBinding) :
     RecyclerView.ViewHolder(itemViewBinding.root) {
@@ -18,88 +15,13 @@ class GoodsViewHolder(itemViewBinding: GoodsItemLayoutBinding) :
 
 class GoodsAdapter : RecyclerView.Adapter<GoodsViewHolder>() {
 
-    private val goodsList: List<Goods> = listOf(
-        Goods(
-            1,
-            "Produkt 1",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            2,
-            "Produkt 2",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            3,
-            "Produkt 3",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 4",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 5",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 6",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 7",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 8",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 9",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        ),
-        Goods(
-            1,
-            "Produkt 10",
-            GoodsCategory.GROCERY,
-            1,
-            LocalDate.now(),
-            R.drawable.ic_launcher_foreground
-        )
-    )
+    private var goodsList = mutableListOf<Goods>()
+
+    fun updateList(updatedGoodsList: List<Goods>) {
+        goodsList.clear()
+        goodsList.addAll(updatedGoodsList)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodsViewHolder {
 

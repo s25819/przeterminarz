@@ -4,5 +4,9 @@
     <string name="grocery">Produkty spożywcze</string>
     <string name="medicine">Lekarstwa</string>
     <string name="cosmetics">Kosmetyki</string>
+    <string name="all">Wszystkie</string>
+    <string name="valid">Ważne</string>
+    <string name="expired">Przeterminowane</string>
 
+    <string name="contentDescription">Opis</string>
 </resources>

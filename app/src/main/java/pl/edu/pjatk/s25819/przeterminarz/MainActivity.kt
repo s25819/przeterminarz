@@ -17,26 +17,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-        }
-
-        val adapter = GoodsAdapter()
-        val recyclerView = binding.goodsRecyclerView
-        recyclerView.let {
-            it.adapter = adapter
-            it.layoutManager = LinearLayoutManager(this)
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         enableEdgeToEdge()
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        Snackbar.make(binding.main, "Hello!", Snackbar.LENGTH_SHORT).show()
-
     }
 }
