@@ -33,7 +33,7 @@ class GoodsAdapter : RecyclerView.Adapter<GoodsViewHolder>() {
             .also {
 
                 it.root.setOnClickListener {
-                    println("Kliknięcie")
+                    println("Kliknięcie " + it)
                 }
                 it.root.setOnLongClickListener {
                     true

@@ -9,4 +9,7 @@
     <string name="expired">Przeterminowane</string>
 
     <string name="contentDescription">Opis</string>
+
+    <string name="expirationDateLabel">Data ważności</string>
+    <string name="isValidLabel">Czy ważna</string>"
 </resources>

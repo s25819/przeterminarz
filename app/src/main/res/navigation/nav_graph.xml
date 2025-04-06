@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
     app:startDestination="@id/goodsListFragment">
-
     <fragment
         android:id="@+id/goodsListFragment"
         android:name="pl.edu.pjatk.s25819.przeterminarz.fragments.GoodsListFragment"

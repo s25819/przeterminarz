@@ -22,7 +22,7 @@ Aplikacja ma pomóc w redukcji marnowania produktów poprzez śledzenie ich dat 
 # Ekran dodawania/edycji produktu [6p]:
 
 - uruchamia się w następstwie kliknięcia przycisku dodającego lub w przypadku edycji istniejącego wpisu na liście
-- ekran ten umożliwia nadanie/zmianę danych wpisu oraz zawiera przycisk zapisujący dokonane zmiany/wprowadzone dane 
+- ekran ten umożliwia nadanie/zmianę danych wpisu oraz zawiera  przycisk zapisujący dokonane zmiany/wprowadzone dane 
 - kategoria wybierana przy pomocy rozwijanej listy wyboru lub radio buttonów [brak spełnienia kryterium: -1p]
 - data ważności wprowadzana przy pomocy kontrolki date picker [brak spełnienia kryterium: -1p]
 - ekran waliduje wprowadzane dane (data nie może być przeszła, nazwa pusta, jeśli użytkownik zdecyduje się na wprowadzenie ilości to ilość musi być wartością liczbową, a jednostka nie może być pominięta) [brak spełnienia kryterium: -1p]

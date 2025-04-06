@@ -18,18 +18,17 @@ class GoodsListFragment : Fragment() {
     private lateinit var adapter : GoodsAdapter
     private lateinit var goodsRepository : GoodsRepository
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = FragmentGoodsListBinding.inflate(layoutInflater)
-
-    }
+    private var selectedCategory : String = "all"
+    private var selectedStatus : String = "all"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_goods_list, container, false)
+    ): View {
+        return FragmentGoodsListBinding.inflate(layoutInflater, container, false)
+            .also {
+                binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,11 +41,16 @@ class GoodsListFragment : Fragment() {
         }
 
         loadGoods()
+        setupListeners()
     }
 
     private fun loadGoods() {
         goodsRepository.fetchAllGoods().apply {
             adapter.updateList(this)
         }
+    }
+
+    private fun setupListeners() {
+
     }
 }
