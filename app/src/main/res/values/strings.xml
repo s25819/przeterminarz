@@ -6,7 +6,7 @@
     <string name="category_label">Kategorie</string>
     <string name="status_label">Termin ważności</string>
 
-    <string name="grocery">Produkty spożywcze</string>
+    <string name="grocery">Spożywcze</string>
     <string name="medicine">Lekarstwa</string>
     <string name="cosmetics">Kosmetyki</string>
     <string name="all">Wszystkie</string>
@@ -20,6 +20,8 @@
 
     <string name="no">Nie</string>
     <string name="yes">Tak</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="manage_goods_title_label">Dodaj nowy produkt</string>
+    <string name="manage_goods_name_label">Nazwa produktu</string>
+    <string name="manage_goods_category_label">Kategoria</string>
 </resources>

@@ -19,7 +19,15 @@ data class Goods(
      * @return true jeśli produkt jest przeterminowany, false w przeciwnym wypadku
      */
     fun isExpired(): Boolean {
-        val currentDate = LocalDate.now()
-        return expirationDate.isBefore(currentDate)
+        return expirationDate.isBefore(LocalDate.now())
+    }
+
+    /**
+     * Funkcja zwracająca informację czy produkt ma określona ilość
+     *
+     * @return true jeśli produkt ma określona ilość, false w przeciwnym wypadku
+     */
+    fun hasQuantity(): Boolean {
+        return quantity != null && quantity > 0
     }
 }

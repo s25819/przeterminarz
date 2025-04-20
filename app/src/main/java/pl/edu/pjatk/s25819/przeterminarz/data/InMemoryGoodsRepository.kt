@@ -1,6 +1,8 @@
 package pl.edu.pjatk.s25819.przeterminarz.data
 
 import pl.edu.pjatk.s25819.przeterminarz.R
+import pl.edu.pjatk.s25819.przeterminarz.exceptions.GoodsNotFoundException
+import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import pl.edu.pjatk.s25819.przeterminarz.repositories.GoodsRepository
@@ -8,28 +10,49 @@ import java.time.LocalDate
 
 object InMemoryGoodsRepository : GoodsRepository {
 
-    private var goods = mutableListOf<Goods>(
-        Goods(1, "Mleko", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(6), R.mipmap.mleko),
-        Goods(2, "Chleb", GoodsCategory.COSMETICS, 0, LocalDate.now().minusDays(10), R.mipmap.mleko),
-        Goods(3, "Masło", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(4), R.mipmap.mleko),
-        Goods(4, "Jajka", GoodsCategory.MEDICINE, 0, LocalDate.now().minusDays(3), R.mipmap.mleko),
-        Goods(5, "Ser", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(10), R.mipmap.mleko),
+    private var goodsData = mutableListOf<Goods>(
+        Goods(0, "Mleko", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(6), R.mipmap.mleko),
+        Goods(
+            1, "Chleb", GoodsCategory.COSMETICS, 0, LocalDate.now().minusDays(10), R.mipmap.mleko
+        ),
+        Goods(2, "Masło", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(4), R.mipmap.mleko),
+        Goods(3, "Jajka", GoodsCategory.MEDICINE, 0, LocalDate.now().minusDays(3), R.mipmap.mleko),
+        Goods(4, "Ser", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(10), R.mipmap.mleko),
     )
 
-    override fun getAllGoods(): List<Goods> = goods
+    override fun getAllGoods(): List<Goods> = goodsData
 
     override fun getGoodsByCategory(category: GoodsCategory): List<Goods> {
         return when (category) {
-            GoodsCategory.ALL -> goods
-            else -> goods.filter { it.category == category }
+            GoodsCategory.ALL -> goodsData
+            else -> goodsData.filter { it.category == category }
         }
     }
 
-    override fun getGoodsByCriteria(category: GoodsCategory, expired: Boolean) {
-        TODO("Not yet implemented")
+    override fun getGoodsByCriteria(category: GoodsCategory, expired: ExpirationFilter): List<Goods> {
+        return goodsData.filter { goods ->
+            val categoryMatch = category == GoodsCategory.ALL || goods.category == category
+            val statusMatch = when (expired) {
+                ExpirationFilter.VALID -> !goods.isExpired()
+                ExpirationFilter.EXPIRED -> goods.isExpired()
+                ExpirationFilter.ALL -> true
+            }
+            categoryMatch && statusMatch
+        }
     }
 
-    override fun getGoodsById(id: Int): Goods? {
-        return goods.find { it.id == id }
+    override fun getGoodsById(id: Int): Goods {
+        val goods = goodsData.find { it.id == id }
+        return goods ?: throw GoodsNotFoundException("Produkt o ID $id nie istnieje")
+    }
+
+    override fun saveGoods(goods: Goods) {
+        if (goods.id == -1) {
+            val newId = this.goodsData.size + 1
+            this.goodsData.add(goods.copy(id = newId))
+        } else {
+            val index = this.goodsData.indexOfFirst { it.id == goods.id }
+            this.goodsData[index] = goods
+        }
     }
 }

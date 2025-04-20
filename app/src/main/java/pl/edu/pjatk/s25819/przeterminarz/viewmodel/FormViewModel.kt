@@ -9,7 +9,7 @@ import pl.edu.pjatk.s25819.przeterminarz.repositories.RepositoryLocator
 
 class FormViewModel : ViewModel() {
 
-    val repository: GoodsRepository = RepositoryLocator().goodsRepository
+    val repository: GoodsRepository = RepositoryLocator.goodsRepository
 
     private var edited: Goods? = null
 
