@@ -100,7 +100,9 @@ class GoodsListFragment : Fragment() {
 
     private fun loadGoods() {
         val goods = goodsRepository.getGoodsByCriteria(selectedCategory, selectedExpirationFilter)
-        goodsAdapter.submitList(goods)
+        goodsAdapter.submitList(goods.sortedBy {
+            it.expirationDate
+        })
     }
 
     private val chipIdToCategoryMap = mapOf(
