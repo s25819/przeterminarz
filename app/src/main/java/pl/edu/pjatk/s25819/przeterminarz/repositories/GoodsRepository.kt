@@ -5,8 +5,12 @@ import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 
 interface GoodsRepository {
 
-    fun fetchAllGoods() : List<Goods>
+    fun getAllGoods() : List<Goods>
 
-    fun fetchGoodsByCategory(category: GoodsCategory) : List<Goods>
+    fun getGoodsByCategory(category: GoodsCategory) : List<Goods>
+
+    fun getGoodsByCriteria(category: GoodsCategory, expired: Boolean )
+
+    fun getGoodsById(id: Int): Goods?
 
 }

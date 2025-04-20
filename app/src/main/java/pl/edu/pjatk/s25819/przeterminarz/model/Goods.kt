@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import java.time.LocalDate
 
 data class Goods(
-    val id: Long,
+    val id: Int,
     val name: String,
     val category: GoodsCategory,
     val quantity: Int? = 0,

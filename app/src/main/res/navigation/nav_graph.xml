@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/goodsListFragment">
     <fragment
         android:id="@+id/goodsListFragment"
         android:name="pl.edu.pjatk.s25819.przeterminarz.fragments.GoodsListFragment"
-        android:label="GoodsListFragment" />
+        android:label="GoodsListFragment">
+        <action
+            android:id="@+id/action_goodsListFragment_to_manageGoodsFragment"
+            app:destination="@id/manageGoodsFragment" >
+            <argument
+                android:name="type"
+                android:defaultValue="New" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/manageGoodsFragment"
+        android:name="pl.edu.pjatk.s25819.przeterminarz.fragments.ManageGoodsFragment"
+        android:label="fragment_manage_goods"
+        tools:layout="@layout/fragment_manage_goods" >
+        <argument
+            android:name="type"
+            app:argType="pl.edu.pjatk.s25819.przeterminarz.model.FormType" />
+    </fragment>
 </navigation>

@@ -49,11 +49,11 @@
 
         <TextView
             android:id="@+id/expirationDateValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintStart_toEndOf="@+id/expiration_date_label"
+            app:layout_constraintEnd_toEndOf="@+id/goods_name"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/expiration_date_label"
             tools:text="2025/05/01" />
 
@@ -69,12 +69,46 @@
 
         <TextView
             android:id="@+id/isValidValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             app:layout_constraintEnd_toEndOf="@+id/expirationDateValue"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/isValidLabel"
             tools:text="Tak" />
+
+        <TextView
+            android:id="@+id/goodsCategoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/categoryLabel"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            app:layout_constraintStart_toStartOf="@+id/isValidLabel"
+            app:layout_constraintTop_toBottomOf="@+id/isValidLabel" />
+
+        <TextView
+            android:id="@+id/goodsCategoryValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            app:layout_constraintEnd_toEndOf="@+id/isValidValue"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/goodsCategoryLabel"
+            tools:text="@string/grocery" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="165dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

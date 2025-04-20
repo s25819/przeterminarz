@@ -21,14 +21,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <View
+                android:id="@+id/separator1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@id/filter_layout" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_label"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/category_filter_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                app:singleSelection="true"
+                app:checkedChip="@id/category_all"
+                app:chipSpacingHorizontal="8dp"
                 app:selectionRequired="true"
-                app:chipSpacingHorizontal="8dp">
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/category_all"
@@ -60,10 +77,25 @@
                     android:text="@string/cosmetics" />
             </com.google.android.material.chip.ChipGroup>
 
+            <View
+                android:id="@+id/separator2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@id/filter_layout" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_label"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                app:layout_constraintStart_toStartOf="parent"/>
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/status_filter_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:checkedChip="@id/status_all"
                 app:chipSpacingHorizontal="8dp"
                 app:selectionRequired="true"
                 app:singleSelection="true">
@@ -73,8 +105,8 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:checkable="true"
+                    android:checked="true"
                     android:text="@string/all" />
 
                 <com.google.android.material.chip.Chip
@@ -90,12 +122,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/expired" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>
 
         <View
-            android:id="@+id/separator"
+            android:id="@+id/separator3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
@@ -106,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separator"
+            app:layout_constraintTop_toBottomOf="@id/separator3"
             tools:listitem="@layout/goods_item_layout" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

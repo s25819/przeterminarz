@@ -1,13 +1,13 @@
 package pl.edu.pjatk.s25819.przeterminarz
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import pl.edu.pjatk.s25819.przeterminarz.adapters.GoodsAdapter
 import pl.edu.pjatk.s25819.przeterminarz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,5 +27,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+
+        binding
     }
 }

@@ -1,15 +1,25 @@
 <resources>
     <string name="app_name">PrzeTerminarz</string>
 
+    <string name="categoryLabel">Kategoria</string>
+
+    <string name="category_label">Kategorie</string>
+    <string name="status_label">Termin ważności</string>
+
     <string name="grocery">Produkty spożywcze</string>
     <string name="medicine">Lekarstwa</string>
     <string name="cosmetics">Kosmetyki</string>
     <string name="all">Wszystkie</string>
     <string name="valid">Ważne</string>
-    <string name="expired">Przeterminowane</string>
+    <string name="expired">Po terminie</string>
 
     <string name="contentDescription">Opis</string>
 
     <string name="expirationDateLabel">Data ważności</string>
     <string name="isValidLabel">Czy ważna</string>"
+
+    <string name="no">Nie</string>
+    <string name="yes">Tak</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
