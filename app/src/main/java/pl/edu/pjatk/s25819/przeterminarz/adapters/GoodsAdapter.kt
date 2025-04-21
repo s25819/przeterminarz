@@ -1,6 +1,7 @@
 package pl.edu.pjatk.s25819.przeterminarz.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -35,6 +36,9 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
         isValidValue.text = root.context.getString(
             if (goods.isExpired()) R.string.expired else R.string.valid
         )
+        quantityGroup.visibility = if (goods.hasQuantity()) View.VISIBLE else View.GONE
+        quantityValue.text = goods.quantity.toString()
+
         root.setCardBackgroundColor(
             root.context.getColor(
                 if (goods.isExpired()) R.color.red_light else R.color.white

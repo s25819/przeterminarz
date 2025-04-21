@@ -13,10 +13,10 @@ object InMemoryGoodsRepository : GoodsRepository {
     private var goodsData = mutableListOf<Goods>(
         Goods(0, "Mleko", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(6), R.mipmap.mleko),
         Goods(
-            1, "Chleb", GoodsCategory.COSMETICS, 0, LocalDate.now().minusDays(10), R.mipmap.mleko
+            1, "Chleb", GoodsCategory.COSMETICS, 3, LocalDate.now().minusDays(10), R.mipmap.mleko
         ),
         Goods(2, "Masło", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(4), R.mipmap.mleko),
-        Goods(3, "Jajka", GoodsCategory.MEDICINE, 0, LocalDate.now().minusDays(3), R.mipmap.mleko),
+        Goods(3, "Jajka", GoodsCategory.MEDICINE, 1, LocalDate.now().minusDays(3), R.mipmap.mleko),
         Goods(4, "Ser", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(10), R.mipmap.mleko),
     )
 
