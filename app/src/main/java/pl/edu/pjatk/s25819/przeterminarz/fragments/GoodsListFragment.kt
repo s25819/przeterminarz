@@ -3,6 +3,8 @@ package pl.edu.pjatk.s25819.przeterminarz.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -16,6 +18,7 @@ import pl.edu.pjatk.s25819.przeterminarz.exceptions.CategoryNotFoundException
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.StatusNotFoundException
 import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.FormType
+import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import pl.edu.pjatk.s25819.przeterminarz.repositories.GoodsRepository
 import pl.edu.pjatk.s25819.przeterminarz.repositories.RepositoryLocator
@@ -54,7 +57,14 @@ class GoodsListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         goodsAdapter = GoodsAdapter { goods ->
-            navigateToEditGoods(goods.id)
+
+                if (goods.isExpired()) {
+                    informAboutExpiredGoods(goods)
+                }
+                else {
+                    navigateToEditGoods(goods.id)
+
+                }
         }
 
         binding.goodsRecyclerView.apply {
@@ -103,6 +113,7 @@ class GoodsListFragment : Fragment() {
         goodsAdapter.submitList(goods.sortedBy {
             it.expirationDate
         })
+        binding.goodsCounterLabel.text = getString(R.string.goods_counter_label, goods.size)
     }
 
     private val chipIdToCategoryMap = mapOf(
@@ -139,6 +150,10 @@ class GoodsListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun informAboutExpiredGoods(goods: Goods) {
+        Toast.makeText(requireContext(), getString(R.string.goods_expired_toast, goods.name), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

@@ -14,11 +14,11 @@ Aplikacja ma pomóc w redukcji marnowania produktów poprzez śledzenie ich dat 
 - element listy powinny zawierać: zdjęcie produktu, nazwę produktu, termin ważności, kategorię, ilość (jeśli została określona) oraz informację czy produkt został wyrzucony (jeśli wygasła jego data przydatności) [2p]
   - TODO: Jeszcze obsługa zdjęć
 - lista powinna być automatycznie sortowana według daty ważności produktów, od najkrótszej do najdłuższej [1p] (DONE)
-- ekran powinien zawierać podsumowanie dla puli prezentowanych elementów (ich liczbę) [1p]
-- wybór elementu listy umożliwi jego podgląd i edycję, tylko jeśli produkt jest nadal przydatny, w przeciwnym wypadku wyświetli stosowną informację o braku możliwości edycji takiego produktu 
+- ekran powinien zawierać podsumowanie dla puli prezentowanych elementów (ich liczbę) [1p] (DONE)
+- wybór elementu listy umożliwi jego podgląd i edycję, tylko jeśli produkt jest nadal przydatny, w przeciwnym wypadku wyświetli stosowną informację o braku możliwości edycji takiego produktu  (DONE)
 - dłuższe przytrzymanie spowoduje pokazanie alertu z zapytaniem o usunięcie elementu z listy (jeśli produkt jest dalej ważny). Jeśli użytkownik zatwierdzi usunięcie wpis powinien zniknąć z listy, a podsumowanie się aktualizować. Jeśli produkt jest nie ważny w ten sposób można go oznaczyć jako wyrzucony. [2p]
-- ekran powinien zawierać również przycisk umożliwiający dodanie nowego elementu
-- lista powinna być zrealizowana implementacja komponentu graficznego RecyclerView [brak spełnienia kryterium: -2p]
+- ekran powinien zawierać również przycisk umożliwiający dodanie nowego elementu (DONE)
+- lista powinna być zrealizowana implementacja komponentu graficznego RecyclerView [brak spełnienia kryterium: -2p] (DONE)
 
 # Ekran dodawania/edycji produktu [6p]:
 
