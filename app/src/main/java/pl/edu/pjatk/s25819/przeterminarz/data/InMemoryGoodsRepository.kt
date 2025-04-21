@@ -55,4 +55,8 @@ object InMemoryGoodsRepository : GoodsRepository {
             this.goodsData[index] = goods
         }
     }
+
+    override fun removeGoods(goods: Goods) {
+        goodsData.remove(goods)
+    }
 }

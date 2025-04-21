@@ -175,8 +175,15 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
-        expirationDateEditText.setText(selectedDate.toString())
+        val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+
+        if (selectedDate.isBefore(LocalDate.now())) {
+            Toast.makeText(requireContext(), R.string.invalid_date_toast, Toast.LENGTH_SHORT).show()
+            return
+        }
+        this.selectedDate = selectedDate
+        expirationDateEditText.setText(this.selectedDate.toString())
+
     }
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->

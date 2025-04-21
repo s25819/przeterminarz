@@ -16,4 +16,6 @@ interface GoodsRepository {
 
     fun saveGoods(goods: Goods)
 
+    fun removeGoods(goods: Goods)
+
 }

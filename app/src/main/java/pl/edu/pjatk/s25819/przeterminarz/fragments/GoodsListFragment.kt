@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -55,17 +56,58 @@ class GoodsListFragment : Fragment() {
         loadGoods()
     }
 
-    private fun setupRecyclerView() {
-        goodsAdapter = GoodsAdapter { goods ->
+    /**
+     * dłuższe przytrzymanie spowoduje pokazanie alertu z zapytaniem o usunięcie elementu z listy (jeśli produkt jest dalej ważny). Jeśli użytkownik zatwierdzi usunięcie wpis powinien zniknąć z listy, a podsumowanie się aktualizować. Jeśli produkt jest nie ważny w ten sposób można go oznaczyć jako wyrzucony
+     */
 
+    private fun setupRecyclerView() {
+        goodsAdapter = GoodsAdapter(
+            onCardClick = { goods ->
                 if (goods.isExpired()) {
                     informAboutExpiredGoods(goods)
-                }
-                else {
+                } else {
                     navigateToEditGoods(goods.id)
-
                 }
-        }
+            },
+            onCardLongClick = { goods ->
+                if (goods.isExpired()) {
+                    removeGoods(goods)
+                    Toast.makeText(
+                        context,
+                        getString(R.string.goods_thrown_away, goods.name),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                } else {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder
+                        .setTitle(getString(R.string.goods_dialog_confirm_delete_title, goods.name))
+                        .setMessage(
+                            getString(
+                                R.string.goods_dialog_confirm_delete_message,
+                                goods.name
+                            )
+                        )
+                        .setPositiveButton(getString(R.string.goods_dialog_confirm_delete_positive)) { _, _ ->
+                            removeGoods(goods)
+                            Toast.makeText(
+                                context,
+                                getString(R.string.goods_deleted, goods.name),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .setNegativeButton(getString(R.string.goods_dialog_confirm_delete_negative)) { _, _ ->
+                            Toast.makeText(
+                                context,
+                                getString(R.string.goods_not_deleted, goods.name),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    builder.create().show()
+                    true
+                }
+            }
+        )
 
         binding.goodsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -116,6 +158,12 @@ class GoodsListFragment : Fragment() {
         binding.goodsCounterLabel.text = getString(R.string.goods_counter_label, goods.size)
     }
 
+    private fun removeGoods(goods: Goods) {
+        goodsRepository.removeGoods(goods)
+        loadGoods()
+    }
+
+
     private val chipIdToCategoryMap = mapOf(
         R.id.category_all to GoodsCategory.ALL,
         R.id.category_food to GoodsCategory.GROCERY,
@@ -153,7 +201,11 @@ class GoodsListFragment : Fragment() {
     }
 
     private fun informAboutExpiredGoods(goods: Goods) {
-        Toast.makeText(requireContext(), getString(R.string.goods_expired_toast, goods.name), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.goods_expired_toast, goods.name),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     companion object {
