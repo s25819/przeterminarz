@@ -38,9 +38,9 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
             goodsImage.setImageResource(goods.image)
             expirationDateValue.text = goods.expirationDate.toString()
             goodsCategoryValue.text = goods.category.getDisplayName(root.context)
-            isValidValue.text = root.context.getString(
-                if (goods.isExpired()) R.string.expired else R.string.valid
-            )
+
+            setValidLabel(goods)
+
             quantityGroup.visibility = if (goods.hasQuantity()) View.VISIBLE else View.GONE
             quantityValue.text = goods.quantity.toString()
 
@@ -53,6 +53,18 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
 
             root.setOnLongClickListener { onCardLongClick(goods) }
         }
+
+    private fun GoodsItemLayoutBinding.setValidLabel(goods: Goods) {
+        if (goods.isThrownAway()) {
+            isValidLabel.text =
+                root.context.getString(R.string.goods_is_thrown_away, goods.name)
+            isValidValue.visibility = View.GONE
+        } else {
+            isValidValue.text = root.context.getString(
+                if (goods.isExpired()) R.string.expired else R.string.valid
+            )
+        }
+    }
 }
 
 class GoodsDiffCallback : DiffUtil.ItemCallback<Goods>() {

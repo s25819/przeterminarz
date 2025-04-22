@@ -10,7 +10,8 @@ data class Goods(
     val quantity: Int? = 0,
     val expirationDate: LocalDate,
     @DrawableRes
-    val image: Int
+    val image: Int,
+    private var markedAsThrownAway: Boolean = false
 ) {
 
     /**
@@ -29,5 +30,23 @@ data class Goods(
      */
     fun hasQuantity(): Boolean {
         return quantity != null && quantity > 0
+    }
+
+    /**
+     * Funkcja ustawiająca, że produkt został odrzucony
+     *
+     * @return void
+     */
+    fun markAsThrownAway() {
+        markedAsThrownAway = true
+    }
+
+    /**
+     * Funkcja zwracająca informację czy produkt został odrzucony
+     *
+     * @return true jeśli produkt został odrzucony, false w przeciwnym wypadku
+     */
+    fun isThrownAway(): Boolean {
+        return markedAsThrownAway
     }
 }
