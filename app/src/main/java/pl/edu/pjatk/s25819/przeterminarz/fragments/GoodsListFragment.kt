@@ -180,16 +180,26 @@ class GoodsListFragment : Fragment() {
 
     private fun handleCardLongClick(goods: Goods): Boolean {
 
+        // jeśli towar jest już wyrzucony nie można go usunąć
+        if (goods.isThrownAway()) {
+            Toast.makeText(
+                context,
+                getString(R.string.goods_already_thrown_away, goods.name),
+                Toast.LENGTH_SHORT
+            ).show()
+            return true
+        }
+
         // jeśli towar jest przeterminowany oznacz go jako wyrzucony
         if (goods.isExpired()) {
             goods.markAsThrownAway()
             updateGoods(goods)
+            loadGoods()
             Toast.makeText(
                 context,
                 getString(R.string.goods_marked_as_thrown_away, goods.name),
                 Toast.LENGTH_SHORT
             ).show()
-            loadGoods()
             return true
         } else {
             val builder = AlertDialog.Builder(requireContext())

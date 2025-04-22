@@ -29,16 +29,22 @@ object InMemoryGoodsRepository : GoodsRepository {
         }
     }
 
-    override fun getGoodsByCriteria(category: GoodsCategory, expired: ExpirationFilter): List<Goods> {
-        return goodsData.filter { goods ->
-            val categoryMatch = category == GoodsCategory.ALL || goods.category == category
-            val statusMatch = when (expired) {
-                ExpirationFilter.VALID -> !goods.isExpired()
-                ExpirationFilter.EXPIRED -> goods.isExpired()
-                ExpirationFilter.ALL -> true
+    override fun getGoodsByCriteria(
+        category: GoodsCategory,
+        expired: ExpirationFilter
+    ): List<Goods> {
+        return goodsData
+            .filter { goods ->
+                val categoryMatch = category == GoodsCategory.ALL || goods.category == category
+                val statusMatch = when (expired) {
+                    ExpirationFilter.VALID -> !goods.isExpired()
+                    ExpirationFilter.EXPIRED -> goods.isExpired()
+                    ExpirationFilter.ALL -> true
+                }
+                (categoryMatch && statusMatch)
             }
-            categoryMatch && statusMatch
-        }
+            .map { it.copy()
+            }
     }
 
     override fun getGoodsById(id: Int): Goods {
