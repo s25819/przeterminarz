@@ -86,14 +86,14 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setupViews() {
         with(binding) {
-            nameEditText = editTextName
-            this@ManageGoodsFragment.categorySpinner = categorySpinner
+            nameEditText = manageGoodsGoodsNameValue
+            this@ManageGoodsFragment.categorySpinner = manageGoodsCategorySpinner
             this@ManageGoodsFragment.switchQuantity = switchQuantity
-            quantityEditText = editTextQuantity
-            expirationDateEditText = editTextExpirationDate
-            this@ManageGoodsFragment.imageViewGoods = imageViewGoods
-            this@ManageGoodsFragment.buttonPickImage = buttonPickImage
-            this@ManageGoodsFragment.buttonSaveGoods = buttonSaveGoods
+            quantityEditText = manageGoodsQuantityValue
+            expirationDateEditText = manageGoodsExpirationDateValue
+            this@ManageGoodsFragment.imageViewGoods = manageGoodsImageView
+            this@ManageGoodsFragment.buttonPickImage = manageGoodsPickImageButton
+            this@ManageGoodsFragment.buttonSaveGoods = manageGoodsSaveButton
         }
     }
 
