@@ -23,14 +23,14 @@
                 android:id="@+id/manage_goods_goods_name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nazwa" />
+                android:text="@string/manage_goods_goods_name_label" />
 
             <EditText
                 android:id="@+id/manage_goods_goods_name_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewModel.goodsName}"
-                android:hint="Nazwa produktu"
+                android:hint="@string/manage_goods_goods_name_value_hint"
                 android:inputType="text" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Kategoria" />
+                android:text="@string/manage_goods_category" />
 
             <Spinner
                 android:id="@+id/manage_goods_category_spinner"
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Ilość" />
+                    android:text="@string/manage_goods_quantity_label_text" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switchQuantity"
@@ -72,7 +72,7 @@
                 android:id="@+id/manage_goods_quantity_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ilość produktu"
+                android:hint="@string/manage_goods_quantity_value_hint"
                 android:inputType="number"
                 android:visibility="gone"
                 android:text="@={viewModel.goodsQuantity}"/>
@@ -82,14 +82,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Data ważności" />
+                android:text="@string/manage_goods_expiration_date_label_text" />
 
             <EditText
                 android:id="@+id/manage_goods_expiration_date_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:hint="Wybierz datę"
+                android:hint="@string/manage_goods_expiration_date_value_hint"
                 android:inputType="date"
                 android:text="@={viewModel.goodsExpirationDate}"/>
 
@@ -98,15 +98,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Obraz" />
+                android:text="@string/manage_goods_image_label_text" />
 
             <ImageView
                 android:id="@+id/manage_goods_image_view"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="Obraz produktu"
-                app:imageThumbnail="@{viewModel.goodsImageByteArray}" />
+                android:contentDescription="Obraz produktu" />
 
             <Button
                 android:id="@+id/manage_goods_pick_image_button"

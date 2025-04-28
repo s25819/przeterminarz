@@ -43,4 +43,13 @@
 
     <string name="invalid_input_toast">Błędne dane</string>
     <string name="success_toast">Dane zapisane</string>
+    <string name="manage_goods_goods_name_label">Nazwa</string>
+    <string name="manage_goods_goods_name_value_hint">Nazwa produktu</string>
+    <string name="manage_goods_category">Kategoria</string>
+    <string name="manage_goods_quantity_label_text">Ilość</string>
+    <string name="manage_goods_quantity_value_hint">Ilość produktu</string>
+    <string name="manage_goods_expiration_date_label_text">Data ważności</string>
+    <string name="manage_goods_expiration_date_value_hint">Wybierz datę</string>
+    <string name="manage_goods_image_label_text">Obraz</string>
+    <string name="goods_counter_label_text">Ilość produktów</string>
 </resources>

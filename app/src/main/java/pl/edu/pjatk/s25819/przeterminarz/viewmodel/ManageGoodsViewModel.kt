@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import androidx.core.graphics.scale
+import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,11 +19,7 @@ import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import pl.edu.pjatk.s25819.przeterminarz.navigation.Destination
 import pl.edu.pjatk.s25819.przeterminarz.navigation.PopBackStack
 import pl.edu.pjatk.s25819.przeterminarz.repositories.RepositoryLocator
-import java.io.IOException
 import java.time.LocalDate
-import androidx.core.net.toUri
-import androidx.core.graphics.scale
-import androidx.core.graphics.createBitmap
 
 class ManageGoodsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -78,16 +76,16 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun onImageSelected(uriString: String) {
+    fun onImageSelected(uri: Uri) {
         viewModelScope.launch {
             val byteArray = withContext(Dispatchers.IO) {
-                createThumbnailByteArray(uriString)
+                createThumbnailByteArray(uri.toString())
             }
             goodsImageByteArray.value = byteArray
         }
     }
 
-    private suspend fun createThumbnailByteArray(uriString: String): ByteArray? {
+    private fun createThumbnailByteArray(uriString: String): ByteArray? {
         val context = getApplication<Application>().applicationContext
         return try {
             val uri = uriString.toUri()

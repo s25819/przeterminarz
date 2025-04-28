@@ -1,12 +1,9 @@
 package pl.edu.pjatk.s25819.przeterminarz.repositories
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.util.Log
-import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.database.GoodsDatabase
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
@@ -24,11 +21,11 @@ object RepositoryLocator {
     suspend fun init(context: Context) {
         val goodsDb = GoodsDatabase.getDbInstance(context)
         goodsRepository = DBGoodsRepository(goodsDb.goodsDao())
-        resetAndInitializeDatabase(context)
+        resetAndInitializeDatabase()
         isInitialized = true
     }
 
-    private suspend fun resetAndInitializeDatabase(context: Context) {
+    private suspend fun resetAndInitializeDatabase() {
         withContext(Dispatchers.IO) {
             val existingGoods = goodsRepository.getAllGoods()
             for (goods in existingGoods) {

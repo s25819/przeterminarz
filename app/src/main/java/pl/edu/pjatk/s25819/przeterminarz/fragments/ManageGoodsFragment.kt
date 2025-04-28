@@ -140,7 +140,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val pickImage = registerForActivityResult(PickVisualMedia()) { uri ->
         uri?.let {
             Log.i("ImagePicker", "Ścieżka do obrazka: $it")
-            viewModel.onImageSelected(it.toString())
+            viewModel.onImageSelected(it)
         } ?: let {
             Log.i("ImagePicker", "Nie wybrano żadnego obrazka")
         }
@@ -199,7 +199,6 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 ) {
                     val selectedCategory = parent.getItemAtPosition(position) as GoodsCategory
 
-                    // TODO: załadować defaultowy obrazek dla kategorii
                     if (viewModel.goodsImageByteArray.value == null) {
                         val bitmap =
                             GoodsCategory.getDefaultImage(requireContext(), selectedCategory)

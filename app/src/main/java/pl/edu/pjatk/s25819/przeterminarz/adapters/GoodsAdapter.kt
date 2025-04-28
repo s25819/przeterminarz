@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.databinding.GoodsItemLayoutBinding
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
+import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 
 class GoodsAdapter(
     private val onCardClick: (Goods) -> Unit,
@@ -43,7 +44,7 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
             val bitmap = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.size)
             goodsImage.setImageBitmap(bitmap)
         } ?: run {
-            goodsImage.setImageResource(R.mipmap.groceries_default)
+            goodsImage.setImageBitmap(GoodsCategory.getDefaultImage(root.context, goods.category))
         }
 
         setValidLabel(goods)

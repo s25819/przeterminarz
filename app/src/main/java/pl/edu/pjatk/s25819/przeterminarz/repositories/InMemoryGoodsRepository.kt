@@ -1,7 +1,5 @@
 package pl.edu.pjatk.s25819.przeterminarz.repositories
 
-import android.graphics.BitmapFactory
-import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.GoodsNotFoundException
 import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods

@@ -9,7 +9,6 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
-import java.io.File
 
 @BindingAdapter("selectedCategory")
 fun bindSpinnerSelectedCategory(spinner: Spinner, category: GoodsCategory?) {

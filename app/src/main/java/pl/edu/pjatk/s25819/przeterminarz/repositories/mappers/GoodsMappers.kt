@@ -1,13 +1,9 @@
 package pl.edu.pjatk.s25819.przeterminarz.repositories.mappers
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import pl.edu.pjatk.s25819.przeterminarz.entities.GoodsEntity
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import java.time.LocalDate
-import androidx.core.graphics.createBitmap
 
 fun GoodsEntity.toGoods(): Goods {
     return Goods(
@@ -31,8 +27,4 @@ fun Goods.toEntity(): GoodsEntity {
         thumbnail = this.thumbnail,
         thrownAway = this.markedAsThrownAway
     )
-}
-
-private fun createEmptyBitmap(): Bitmap {
-    return createBitmap(100, 100)
 }
