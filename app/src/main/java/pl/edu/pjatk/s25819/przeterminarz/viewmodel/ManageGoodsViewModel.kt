@@ -33,6 +33,7 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
     val goodsExpirationDate = MutableLiveData<String>()
     val goodsImageByteArray = MutableLiveData<ByteArray?>()
 
+    val switchQuantityEnabled = MutableLiveData<Boolean>(true)
     val goodsManageButtonText = MutableLiveData<Int>()
     val navigation = MutableLiveData<Destination>()
 
@@ -53,13 +54,16 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
             } ?: run {
                 R.string.manage_goods_button_add_goods_label
             }
+
+            Log.i(TAG, "Wartość currentGoods?quantity != null: ${currentGoods?.quantity != null}")
+            switchQuantityEnabled.value = currentGoods?.hasQuantity() ?: true
         }
     }
 
     fun saveGoods(selectedCategory: GoodsCategory) {
         viewModelScope.launch {
             val id = currentGoods?.id ?: 0
-            val quantity = goodsQuantity.value?.toIntOrNull()
+            val quantity = calculateQuantity()
 
             val goods = Goods(
                 id = id,
@@ -74,6 +78,14 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
             goodsRepository.saveGoods(goods)
             navigation.value = PopBackStack()
         }
+    }
+
+    private fun calculateQuantity(): Int? {
+        Log.i("ManageGoodsViewModel", "Stan switchQuantityEnabled: ${switchQuantityEnabled.value}")
+        if (switchQuantityEnabled.value == false) {
+            return null
+        }
+        return goodsQuantity.value?.toIntOrNull()
     }
 
     fun onImageSelected(uri: Uri) {

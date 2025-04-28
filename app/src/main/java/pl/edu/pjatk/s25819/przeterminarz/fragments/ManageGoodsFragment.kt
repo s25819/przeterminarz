@@ -102,6 +102,11 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 )
             )
         }
+
+        viewModel.switchQuantityEnabled.observe(viewLifecycleOwner) {
+            Log.i(TAG, "Zmiana statusu switcha na $it")
+            binding.switchQuantity.isChecked = it
+        }
     }
 
     private fun setupCategorySpinner() {
@@ -155,6 +160,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun setupSwitchQuantity() {
         binding.switchQuantity.setOnCheckedChangeListener { _, isChecked ->
             binding.manageGoodsQuantityValue.visibility = if (isChecked) View.VISIBLE else View.GONE
+            viewModel.switchQuantityEnabled.value = isChecked
         }
     }
 
