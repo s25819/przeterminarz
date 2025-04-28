@@ -18,6 +18,7 @@ import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.adapters.GoodsCategoryAdapter
 import pl.edu.pjatk.s25819.przeterminarz.databinding.FragmentManageGoodsBinding
 import pl.edu.pjatk.s25819.przeterminarz.model.FormType
+import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import pl.edu.pjatk.s25819.przeterminarz.viewmodel.ManageGoodsViewModel
 import java.time.LocalDate
@@ -65,6 +66,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setupUI() {
         setupCategorySpinner()
+        setupCategoryChangeListener()
         setupDatePicker()
         setupImagePicker()
         setupSwitchQuantity()
@@ -115,7 +117,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
             binding.manageGoodsImageView.setImageURI(it)
-            // TODO: Zapisać URI lub Bitmapę
+            viewModel.goodsImageThumbnail.value = it.toString()
         }
     }
 
@@ -166,6 +168,22 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         return name.isNotEmpty() &&
                 (!binding.switchQuantity.isChecked || quantityText.toIntOrNull() != null) &&
                 binding.manageGoodsExpirationDateValue.text.toString().isNotBlank()
+    }
+
+    private fun setupCategoryChangeListener() {
+        binding.manageGoodsCategorySpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedCategory = parent.getItemAtPosition(position) as GoodsCategory
+
+                // Jeśli użytkownik NIE wybrał jeszcze własnego obrazka
+                if (viewModel.goodsImageThumbnail.value.isNullOrEmpty()) {
+                    val bitmap = GoodsCategory.getDefaultImage(requireContext(), selectedCategory)
+                    binding.manageGoodsImageView.setImageBitmap(bitmap)
+                }
+            }
+
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+        })
     }
 
     companion object {

@@ -1,6 +1,8 @@
 package pl.edu.pjatk.s25819.przeterminarz.model
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.CategoryNotFoundException
@@ -11,11 +13,6 @@ enum class GoodsCategory(private val displayNameCode: Int) {
     GROCERY(R.string.grocery),
     MEDICINE(R.string.medicine),
     COSMETICS(R.string.cosmetics);
-
-    fun getDefaultImage(): Int {
-        return getDefaultImage(this)
-    }
-
 
     fun getDisplayName(context: Context): String {
         return context.getString(displayNameCode)
@@ -36,12 +33,17 @@ enum class GoodsCategory(private val displayNameCode: Int) {
             R.string.all to ALL
         )
 
-        fun getDefaultImage(category: GoodsCategory): Int {
-            return when (category) {
-                GROCERY -> R.mipmap.groceries_default
-                MEDICINE -> R.mipmap.medicine_default
-                COSMETICS -> R.mipmap.cosmetics_default
-                ALL -> R.mipmap.ic_launcher
+        fun getDefaultImage(context: Context, category: GoodsCategory): Bitmap {
+            val assetsManager = context.assets
+            val defaultImage =  when (category) {
+                GROCERY -> "images/groceries_default.jpg"
+                MEDICINE -> "images/medicine_default.jpg"
+                COSMETICS -> "images/cosmetics_default.jpg"
+                else -> "images/groceries_default.jpg"
+            }
+
+            assetsManager.open(defaultImage).use { inputStream ->
+                return BitmapFactory.decodeStream(inputStream)
             }
         }
 

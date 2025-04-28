@@ -1,11 +1,15 @@
 package pl.edu.pjatk.s25819.przeterminarz.viewmodel.bindingatapters
 
+import android.graphics.BitmapFactory
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
+import java.io.File
 
 @BindingAdapter("selectedCategory")
 fun bindSpinnerSelectedCategory(spinner: Spinner, category: GoodsCategory?) {
@@ -41,5 +45,24 @@ fun setSpinnerCategoryListener(spinner: Spinner, listener: InverseBindingListene
         override fun onNothingSelected(parent: AdapterView<*>) {
             listener.onChange()
         }
+    }
+}
+
+@BindingAdapter("imageThumbnail")
+fun loadImageThumbnail(view: ImageView, imagePath: String?) {
+    if (!imagePath.isNullOrEmpty()) {
+        val file = File(imagePath)
+        if (file.exists()) {
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            if (bitmap != null) {
+                view.setImageBitmap(bitmap)
+            } else {
+                view.setImageResource(R.mipmap.groceries_default)
+            }
+        } else {
+            view.setImageResource(R.mipmap.groceries_default)
+        }
+    } else {
+        view.setImageResource(R.mipmap.groceries_default)
     }
 }

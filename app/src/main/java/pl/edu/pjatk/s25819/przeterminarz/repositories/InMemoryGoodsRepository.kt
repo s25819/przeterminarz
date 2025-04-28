@@ -1,11 +1,11 @@
-package pl.edu.pjatk.s25819.przeterminarz.data
+package pl.edu.pjatk.s25819.przeterminarz.repositories
 
+import android.graphics.BitmapFactory
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.GoodsNotFoundException
 import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
-import pl.edu.pjatk.s25819.przeterminarz.repositories.GoodsRepository
 import java.time.LocalDate
 
 object InMemoryGoodsRepository : GoodsRepository {
@@ -17,58 +17,22 @@ object InMemoryGoodsRepository : GoodsRepository {
             GoodsCategory.GROCERY,
             0,
             LocalDate.now().plusDays(6),
-            GoodsCategory.getDefaultImage(
-                GoodsCategory.GROCERY
-            )
-        ), Goods(
-            1,
-            "Chleb",
-            GoodsCategory.COSMETICS,
-            3,
-            LocalDate.now().minusDays(10),
-            GoodsCategory.getDefaultImage(
-                GoodsCategory.COSMETICS
-            )
-        ), Goods(
-            2,
-            "Masło",
-            GoodsCategory.GROCERY,
-            0,
-            LocalDate.now().plusDays(4),
-            GoodsCategory.getDefaultImage(
-                GoodsCategory.GROCERY
-            )
-        ), Goods(
-            3,
-            "Jajka",
-            GoodsCategory.MEDICINE,
-            1,
-            LocalDate.now().minusDays(3),
-            GoodsCategory.getDefaultImage(
-                GoodsCategory.MEDICINE
-            )
-        ), Goods(
-            4,
-            "Ser",
-            GoodsCategory.GROCERY,
-            0,
-            LocalDate.now().plusDays(10),
-            GoodsCategory.getDefaultImage(
-                GoodsCategory.GROCERY
-            )
+            BitmapFactory.decodeResource(null, R.mipmap.cosmetics_default),
+            imageName = "someName",
+            markedAsThrownAway = false
         )
     )
 
-    override fun getAllGoods(): List<Goods> = goodsData
+    override suspend fun getAllGoods(): List<Goods> = goodsData
 
-    override fun getGoodsByCategory(category: GoodsCategory): List<Goods> {
+    override suspend fun getGoodsByCategory(category: GoodsCategory): List<Goods> {
         return when (category) {
             GoodsCategory.ALL -> goodsData
             else -> goodsData.filter { it.category == category }
         }
     }
 
-    override fun getGoodsByCriteria(
+    override suspend fun getGoodsByCriteria(
         category: GoodsCategory, expired: ExpirationFilter
     ): List<Goods> {
         return goodsData.filter { goods ->
@@ -84,12 +48,12 @@ object InMemoryGoodsRepository : GoodsRepository {
             }
     }
 
-    override fun getGoodsById(id: Int): Goods {
+    override suspend fun getGoodsById(id: Int): Goods {
         val goods = goodsData.find { it.id == id }
         return goods ?: throw GoodsNotFoundException("Produkt o ID $id nie istnieje")
     }
 
-    override fun saveGoods(goods: Goods) {
+    override suspend fun saveGoods(goods: Goods) {
         if (goods.id == -1) {
             val newId = this.goodsData.size + 1
             this.goodsData.add(goods.copy(id = newId))
@@ -99,7 +63,7 @@ object InMemoryGoodsRepository : GoodsRepository {
         }
     }
 
-    override fun removeGoods(goods: Goods) {
+    override suspend fun removeGoods(goods: Goods) {
         goodsData.remove(goods)
     }
 }

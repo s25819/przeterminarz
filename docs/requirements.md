@@ -20,7 +20,7 @@ DONE
 - lista powinna być automatycznie sortowana według daty ważności produktów, od najkrótszej do najdłuższej [1p] (DONE)
 - ekran powinien zawierać podsumowanie dla puli prezentowanych elementów (ich liczbę) [1p] (DONE)
 - wybór elementu listy umożliwi jego podgląd i edycję, tylko jeśli produkt jest nadal przydatny, w przeciwnym wypadku wyświetli stosowną informację o braku możliwości edycji takiego produktu  (DONE)
-- dłuższe przytrzymanie spowoduje pokazanie alertu z zapytaniem o usunięcie elementu z listy (jeśli produkt jest dalej ważny). Jeśli użytkownik zatwierdzi usunięcie wpis powinien zniknąć z listy, a podsumowanie się aktualizować. Jeśli produkt jest nie ważny w ten sposób można go oznaczyć jako wyrzucony. [2p] (DONE)
+- d łuższe przytrzymanie spowoduje pokazanie alertu z zapytaniem o usunięcie elementu z listy (jeśli produkt jest dalej ważny). Jeśli użytkownik zatwierdzi usunięcie wpis powinien zniknąć z listy, a podsumowanie się aktualizować. Jeśli produkt jest nie ważny w ten sposób można go oznaczyć jako wyrzucony. [2p] (DONE)
 - ekran powinien zawierać również przycisk umożliwiający dodanie nowego elementu (DONE)
 - lista powinna być zrealizowana implementacja komponentu graficznego RecyclerView [brak spełnienia kryterium: -2p] (DONE)
 
@@ -29,12 +29,12 @@ DONE
 
 TODO
 - zdjęcie produktu powinno być wybierane z galerii zdjęć i zapisywane w bazie z produktami jako miniaturka [brak spełnienia kryterium: -2p]
-- Zapisywanie danych na urządzeniu należy zrealizować z wykorzystaniem mechanizmu lokalnej bazy danych np: SQLite/Room. [3p]
 - Aplikacja powinna posiadać zadbaną szatę graficzną i responsywny układ (np: ikony zamiast tekstu na przyciskach oraz logo na ekranie listy, brak najeżdżających na siebie przycisków, lista przewijana, itp.). Dodatkowo wykorzystane w aplikacji teksty powinny być umieszone w plikach z zasobami.[2p]
  -  Przed poddaniem projektu ocenie należy przygotować zestaw danych przykładowych wczytywany każdorazowo podczas tworzenia bazy danych, w celu zaprezentowania wszystkich funkcjonalności. (najlepiej dane te umieścić bezpośrednio w kodzie aplikacji) [brak spełnienia kryterium: -2p]
 
 
 DONE
+- Zapisywanie danych na urządzeniu należy zrealizować z wykorzystaniem mechanizmu lokalnej bazy danych np: SQLite/Room. [3p]
 - uruchamia się w następstwie kliknięcia przycisku dodającego lub w przypadku edycji istniejącego wpisu na liście (DONE)
 - ekran ten umożliwia nadanie/zmianę danych wpisu oraz zawiera  przycisk zapisujący dokonane zmiany/wprowadzone dane  (DONE)
 - kategoria wybierana przy pomocy rozwijanej listy wyboru lub radio buttonów [brak spełnienia kryterium: -1p] (DONE)

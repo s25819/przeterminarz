@@ -1,5 +1,6 @@
 package pl.edu.pjatk.s25819.przeterminarz.model
 
+import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import java.time.LocalDate
 
@@ -9,9 +10,9 @@ data class Goods(
     val category: GoodsCategory,
     val quantity: Int? = 0,
     val expirationDate: LocalDate,
-    @DrawableRes
-    val image: Int,
-    private var markedAsThrownAway: Boolean = false
+    val image: Bitmap,
+    val imageName: String,
+    var markedAsThrownAway: Boolean = false
 ) {
 
     /**
@@ -48,5 +49,9 @@ data class Goods(
      */
     fun isThrownAway(): Boolean {
         return markedAsThrownAway
+    }
+
+    fun convertToByteArray(bitmap: Bitmap): String {
+        return ""
     }
 }

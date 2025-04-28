@@ -6,16 +6,16 @@ import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 
 interface GoodsRepository {
 
-    fun getAllGoods() : List<Goods>
+    suspend fun getAllGoods() : List<Goods>
 
-    fun getGoodsByCategory(category: GoodsCategory) : List<Goods>
+    suspend fun getGoodsByCategory(category: GoodsCategory) : List<Goods>
 
-    fun getGoodsByCriteria(category: GoodsCategory, expired: ExpirationFilter ): List<Goods>
+    suspend fun getGoodsByCriteria(category: GoodsCategory, expired: ExpirationFilter ): List<Goods>
 
-    fun getGoodsById(id: Int): Goods
+    suspend fun getGoodsById(id: Int): Goods
 
-    fun saveGoods(goods: Goods)
+    suspend fun saveGoods(goods: Goods)
 
-    fun removeGoods(goods: Goods)
+    suspend fun removeGoods(goods: Goods)
 
 }

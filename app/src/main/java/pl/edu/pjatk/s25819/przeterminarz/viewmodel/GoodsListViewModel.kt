@@ -1,10 +1,14 @@
 package pl.edu.pjatk.s25819.przeterminarz.viewmodel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.model.*
 import pl.edu.pjatk.s25819.przeterminarz.navigation.*
@@ -23,6 +27,8 @@ class GoodsListViewModel : ViewModel() {
         if (category.value != newCategory) {
             category.value = newCategory
             loadGoods()
+        } else {
+            Log.d(TAG, "Kategoria się nie zmieniła, pomijam loadGoods()")
         }
     }
 
@@ -30,30 +36,37 @@ class GoodsListViewModel : ViewModel() {
         if (filter.value != newFilter) {
             filter.value = newFilter
             loadGoods()
+        } else {
+            Log.d(TAG, "Filtr expiration się nie zmienił, pomijam loadGoods()")
         }
     }
 
     fun loadGoods() {
-        val cat = category.value ?: GoodsCategory.ALL
-        val filt = filter.value ?: ExpirationFilter.ALL
-        val filtered = repository.getGoodsByCriteria(cat, filt).sortedBy { it.expirationDate }
-        goodsList.value = filtered
-    }
-
-    fun onAddGoods(goods: Goods) {
-        repository.saveGoods(goods)
-        loadGoods()
+        viewModelScope.launch {
+            while (!RepositoryLocator.isInitialized) {
+                Log.d(TAG, "Czekam na wgranie wszystkich przykładowych danych")
+                delay(100)
+            }
+            val cat = category.value ?: GoodsCategory.ALL
+            val filt = filter.value ?: ExpirationFilter.ALL
+            val filtered = repository.getGoodsByCriteria(cat, filt)
+            goodsList.value = filtered
+        }
     }
 
     fun onRemoveGoods(goods: Goods) {
-        repository.removeGoods(goods)
-        loadGoods()
+        viewModelScope.launch {
+            repository.removeGoods(goods)
+            loadGoods()
+        }
     }
 
     fun onThrowAwayGoods(goods: Goods) {
-        goods.markAsThrownAway()
-        repository.saveGoods(goods)
-        loadGoods()
+        viewModelScope.launch {
+            goods.markAsThrownAway()
+            repository.saveGoods(goods)
+            loadGoods()
+        }
     }
 
     fun navigateToAdd() {
@@ -68,5 +81,9 @@ class GoodsListViewModel : ViewModel() {
         if (destination.id == R.id.goodsListFragment) {
             loadGoods()
         }
+    }
+
+    companion object {
+        private const val TAG = "GoodsListViewModel"
     }
 }
