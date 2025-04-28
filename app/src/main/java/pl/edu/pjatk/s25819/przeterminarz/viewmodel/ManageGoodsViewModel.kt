@@ -3,11 +3,14 @@ package pl.edu.pjatk.s25819.przeterminarz.viewmodel
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
@@ -16,6 +19,9 @@ import pl.edu.pjatk.s25819.przeterminarz.navigation.PopBackStack
 import pl.edu.pjatk.s25819.przeterminarz.repositories.RepositoryLocator
 import java.io.IOException
 import java.time.LocalDate
+import androidx.core.net.toUri
+import androidx.core.graphics.scale
+import androidx.core.graphics.createBitmap
 
 class ManageGoodsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,9 +33,9 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
     val goodsCategory = MutableLiveData<GoodsCategory>()
     val goodsQuantity = MutableLiveData<String>()
     val goodsExpirationDate = MutableLiveData<String>()
-    val goodsImageThumbnail = MutableLiveData<String?>()
-    val goodsManageButtonText = MutableLiveData<Int>()
+    val goodsImageByteArray = MutableLiveData<ByteArray?>()
 
+    val goodsManageButtonText = MutableLiveData<Int>()
     val navigation = MutableLiveData<Destination>()
 
     fun init(id: Int?) {
@@ -41,12 +47,14 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
                 goodsCategory.value = goods.category
                 goodsQuantity.value = goods.quantity?.toString()
                 goodsExpirationDate.value = goods.expirationDate.toString()
-                goodsImageThumbnail.value = goods.imageName
+                goodsImageByteArray.value = goods.thumbnail
             }
 
             goodsManageButtonText.value = currentGoods?.run {
                 R.string.manage_goods_button_edit_goods_label
-            } ?: run { R.string.manage_goods_button_add_goods_label }
+            } ?: run {
+                R.string.manage_goods_button_add_goods_label
+            }
         }
     }
 
@@ -55,16 +63,13 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
             val id = currentGoods?.id ?: 0
             val quantity = goodsQuantity.value?.toIntOrNull()
 
-            val imageBitmap = loadImageOrDefault(selectedCategory)
-
             val goods = Goods(
                 id = id,
                 name = goodsName.value.orEmpty(),
                 category = selectedCategory,
                 quantity = quantity,
                 expirationDate = convertDate(),
-                image = imageBitmap,
-                imageName = goodsImageThumbnail.value ?: "",
+                thumbnail = goodsImageByteArray.value,
                 markedAsThrownAway = false
             )
 
@@ -73,19 +78,33 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    private fun loadImageOrDefault(category: GoodsCategory): Bitmap {
-        val imagePath = goodsImageThumbnail.value
-
-        return if (!imagePath.isNullOrEmpty()) {
-            try {
-                BitmapFactory.decodeFile(imagePath)
-                    ?: GoodsCategory.getDefaultImage(getApplication(), category)
-            } catch (e: IOException) {
-                Log.e(TAG, "Błąd w ładowaniu obrazka: ${e.message}")
-                GoodsCategory.getDefaultImage(getApplication(), category)
+    fun onImageSelected(uriString: String) {
+        viewModelScope.launch {
+            val byteArray = withContext(Dispatchers.IO) {
+                createThumbnailByteArray(uriString)
             }
-        } else {
-            GoodsCategory.getDefaultImage(getApplication(), category)
+            goodsImageByteArray.value = byteArray
+        }
+    }
+
+    private suspend fun createThumbnailByteArray(uriString: String): ByteArray? {
+        val context = getApplication<Application>().applicationContext
+        return try {
+            val uri = uriString.toUri()
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val originalBitmap = inputStream?.use { BitmapFactory.decodeStream(it) }
+            if (originalBitmap != null) {
+                val thumbnail = originalBitmap.scale(150, 150)
+
+                val outputStream = java.io.ByteArrayOutputStream()
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                outputStream.toByteArray()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Błąd tworzenia miniaturki ByteArray: ${e.message}")
+            null
         }
     }
 

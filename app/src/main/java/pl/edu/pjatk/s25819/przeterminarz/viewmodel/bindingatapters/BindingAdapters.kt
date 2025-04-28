@@ -49,20 +49,12 @@ fun setSpinnerCategoryListener(spinner: Spinner, listener: InverseBindingListene
 }
 
 @BindingAdapter("imageThumbnail")
-fun loadImageThumbnail(view: ImageView, imagePath: String?) {
-    if (!imagePath.isNullOrEmpty()) {
-        val file = File(imagePath)
-        if (file.exists()) {
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-            if (bitmap != null) {
-                view.setImageBitmap(bitmap)
-            } else {
-                view.setImageResource(R.mipmap.groceries_default)
-            }
-        } else {
-            view.setImageResource(R.mipmap.groceries_default)
-        }
-    } else {
+fun loadImageThumbnail(view: ImageView, imageBytes: ByteArray?) {
+    if (imageBytes == null) {
         view.setImageResource(R.mipmap.groceries_default)
+        return
     }
+
+    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    view.setImageBitmap(bitmap)
 }

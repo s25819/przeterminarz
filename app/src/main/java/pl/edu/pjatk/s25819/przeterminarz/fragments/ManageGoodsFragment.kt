@@ -1,6 +1,7 @@
 package pl.edu.pjatk.s25819.przeterminarz.fragments
 
 import android.app.DatePickerDialog
+import android.graphics.BitmapFactory
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -61,6 +63,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             is FormType.Edit -> {
                 viewModel.init((formType as FormType.Edit).id)
             }
+
             is FormType.New -> {
                 viewModel.init(null)
             }
@@ -83,8 +86,21 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
 
         viewModel.goodsManageButtonText.observe(viewLifecycleOwner) {
-            Log.d(TAG, "Manage goods button text changed to $it")
-            binding.manageGoodsSaveButton.text = getString(it)
+            val buttonLabel = getString(it)
+            Log.d(TAG, "Nazwa przycisku zmieniona na $buttonLabel")
+            binding.manageGoodsSaveButton.text = buttonLabel
+        }
+
+        viewModel.goodsImageByteArray.observe(viewLifecycleOwner) { imageBytes ->
+            if (imageBytes == null) return@observe
+
+            binding.manageGoodsImageView.setImageBitmap(
+                BitmapFactory.decodeByteArray(
+                    imageBytes,
+                    0,
+                    imageBytes.size
+                )
+            )
         }
     }
 
@@ -121,16 +137,18 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         viewModel.goodsExpirationDate.value = pickedDate.toString()
     }
 
-    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val pickImage = registerForActivityResult(PickVisualMedia()) { uri ->
         uri?.let {
-            binding.manageGoodsImageView.setImageURI(it)
-            viewModel.goodsImageThumbnail.value = it.toString()
+            Log.i("ImagePicker", "Ścieżka do obrazka: $it")
+            viewModel.onImageSelected(it.toString())
+        } ?: let {
+            Log.i("ImagePicker", "Nie wybrano żadnego obrazka")
         }
     }
 
     private fun setupImagePicker() {
         binding.manageGoodsPickImageButton.setOnClickListener {
-            pickImage.launch("image/*")
+            pickImage.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
     }
 
@@ -181,10 +199,19 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 ) {
                     val selectedCategory = parent.getItemAtPosition(position) as GoodsCategory
 
-                    if (viewModel.goodsImageThumbnail.value.isNullOrEmpty()) {
+                    // TODO: załadować defaultowy obrazek dla kategorii
+                    if (viewModel.goodsImageByteArray.value == null) {
                         val bitmap =
                             GoodsCategory.getDefaultImage(requireContext(), selectedCategory)
                         binding.manageGoodsImageView.setImageBitmap(bitmap)
+                    } else {
+                        binding.manageGoodsImageView.setImageBitmap(
+                            BitmapFactory.decodeByteArray(
+                                viewModel.goodsImageByteArray.value,
+                                0,
+                                viewModel.goodsImageByteArray.value!!.size
+                            )
+                        )
                     }
                 }
 

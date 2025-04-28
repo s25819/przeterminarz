@@ -106,7 +106,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
                 android:contentDescription="Obraz produktu"
-                app:imageThumbnail="@{viewModel.goodsImageThumbnail}" />
+                app:imageThumbnail="@{viewModel.goodsImageByteArray}" />
 
             <Button
                 android:id="@+id/manage_goods_pick_image_button"

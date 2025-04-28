@@ -17,8 +17,7 @@ object InMemoryGoodsRepository : GoodsRepository {
             GoodsCategory.GROCERY,
             0,
             LocalDate.now().plusDays(6),
-            BitmapFactory.decodeResource(null, R.mipmap.cosmetics_default),
-            imageName = "someName",
+            null,
             markedAsThrownAway = false
         )
     )
@@ -36,16 +35,16 @@ object InMemoryGoodsRepository : GoodsRepository {
         category: GoodsCategory, expired: ExpirationFilter
     ): List<Goods> {
         return goodsData.filter { goods ->
-                val categoryMatch = category == GoodsCategory.ALL || goods.category == category
-                val statusMatch = when (expired) {
-                    ExpirationFilter.VALID -> !goods.isExpired()
-                    ExpirationFilter.EXPIRED -> goods.isExpired()
-                    ExpirationFilter.ALL -> true
-                }
-                (categoryMatch && statusMatch)
-            }.map {
-                it.copy()
+            val categoryMatch = category == GoodsCategory.ALL || goods.category == category
+            val statusMatch = when (expired) {
+                ExpirationFilter.VALID -> !goods.isExpired()
+                ExpirationFilter.EXPIRED -> goods.isExpired()
+                ExpirationFilter.ALL -> true
             }
+            (categoryMatch && statusMatch)
+        }.map {
+            it.copy()
+        }
     }
 
     override suspend fun getGoodsById(id: Int): Goods {

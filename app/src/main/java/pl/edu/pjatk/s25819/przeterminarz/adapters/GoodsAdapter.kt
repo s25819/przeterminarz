@@ -1,9 +1,10 @@
 package pl.edu.pjatk.s25819.przeterminarz.adapters
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-    import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.pjatk.s25819.przeterminarz.R
@@ -11,7 +12,8 @@ import pl.edu.pjatk.s25819.przeterminarz.databinding.GoodsItemLayoutBinding
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 
 class GoodsAdapter(
-    private val onCardClick: (Goods) -> Unit, private val onCardLongClick: (Goods) -> Boolean
+    private val onCardClick: (Goods) -> Unit,
+    private val onCardLongClick: (Goods) -> Boolean
 ) : ListAdapter<Goods, GoodsViewHolder>(GoodsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoodsViewHolder {
@@ -34,10 +36,18 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
         onCardLongClick: (Goods) -> Boolean
     ): Unit = with(binding) {
         goodsName.text = goods.name
-        goodsImage.setImageBitmap(goods.image)
         expirationDateValue.text = goods.expirationDate.toString()
         goodsCategoryValue.text = goods.category.getDisplayName(root.context)
+
+        goods.thumbnail?.let { thumbnail ->
+            val bitmap = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.size)
+            goodsImage.setImageBitmap(bitmap)
+        } ?: run {
+            goodsImage.setImageResource(R.mipmap.groceries_default)
+        }
+
         setValidLabel(goods)
+
         quantityGroup.visibility = if (goods.hasQuantity()) View.VISIBLE else View.GONE
         quantityValue.text = goods.quantity?.toString() ?: ""
 
@@ -46,6 +56,7 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
                 if (goods.isExpired()) R.color.red_light else R.color.white
             )
         )
+
         root.setOnClickListener { onCardClick(goods) }
         root.setOnLongClickListener { onCardLongClick(goods) }
     }
@@ -64,6 +75,9 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
 }
 
 class GoodsDiffCallback : DiffUtil.ItemCallback<Goods>() {
-    override fun areItemsTheSame(oldItem: Goods, newItem: Goods): Boolean = oldItem.id == newItem.id
-    override fun areContentsTheSame(oldItem: Goods, newItem: Goods): Boolean = oldItem == newItem
+    override fun areItemsTheSame(oldItem: Goods, newItem: Goods): Boolean =
+        oldItem.id == newItem.id
+
+    override fun areContentsTheSame(oldItem: Goods, newItem: Goods): Boolean =
+        oldItem == newItem
 }

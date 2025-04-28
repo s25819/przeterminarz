@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import pl.edu.pjatk.s25819.przeterminarz.dao.GoodsDao
 import pl.edu.pjatk.s25819.przeterminarz.entities.GoodsEntity
 
-@Database(entities = [GoodsEntity::class], version = 1)
+@Database(entities = [GoodsEntity::class], version = 3)
 abstract class GoodsDatabase : RoomDatabase() {
 
     abstract fun goodsDao(): GoodsDao
@@ -25,7 +25,8 @@ abstract class GoodsDatabase : RoomDatabase() {
                 context.applicationContext,
                 GoodsDatabase::class.java,
                 DATABASE_NAME
-            ).build()
+            ).fallbackToDestructiveMigration()
+                .build()
 
             return instance!!
         }
