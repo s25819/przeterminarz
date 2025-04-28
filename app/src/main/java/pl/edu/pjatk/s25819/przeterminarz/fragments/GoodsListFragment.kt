@@ -72,7 +72,7 @@ class GoodsListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.goods.observe(viewLifecycleOwner) { goods ->
+        viewModel.goodsList.observe(viewLifecycleOwner) { goods ->
             goodsAdapter.submitList(goods)
             binding.goodsCounterLabel.text = getString(R.string.goods_counter_label, goods.size)
         }

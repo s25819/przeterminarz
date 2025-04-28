@@ -11,13 +11,52 @@ import java.time.LocalDate
 object InMemoryGoodsRepository : GoodsRepository {
 
     private var goodsData = mutableListOf<Goods>(
-        Goods(0, "Mleko", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(6), R.mipmap.mleko),
         Goods(
-            1, "Chleb", GoodsCategory.COSMETICS, 3, LocalDate.now().minusDays(10), R.mipmap.mleko
-        ),
-        Goods(2, "Masło", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(4), R.mipmap.mleko),
-        Goods(3, "Jajka", GoodsCategory.MEDICINE, 1, LocalDate.now().minusDays(3), R.mipmap.mleko),
-        Goods(4, "Ser", GoodsCategory.GROCERY, 0, LocalDate.now().plusDays(10), R.mipmap.mleko),
+            0,
+            "Mleko",
+            GoodsCategory.GROCERY,
+            0,
+            LocalDate.now().plusDays(6),
+            GoodsCategory.getDefaultImage(
+                GoodsCategory.GROCERY
+            )
+        ), Goods(
+            1,
+            "Chleb",
+            GoodsCategory.COSMETICS,
+            3,
+            LocalDate.now().minusDays(10),
+            GoodsCategory.getDefaultImage(
+                GoodsCategory.COSMETICS
+            )
+        ), Goods(
+            2,
+            "Masło",
+            GoodsCategory.GROCERY,
+            0,
+            LocalDate.now().plusDays(4),
+            GoodsCategory.getDefaultImage(
+                GoodsCategory.GROCERY
+            )
+        ), Goods(
+            3,
+            "Jajka",
+            GoodsCategory.MEDICINE,
+            1,
+            LocalDate.now().minusDays(3),
+            GoodsCategory.getDefaultImage(
+                GoodsCategory.MEDICINE
+            )
+        ), Goods(
+            4,
+            "Ser",
+            GoodsCategory.GROCERY,
+            0,
+            LocalDate.now().plusDays(10),
+            GoodsCategory.getDefaultImage(
+                GoodsCategory.GROCERY
+            )
+        )
     )
 
     override fun getAllGoods(): List<Goods> = goodsData
@@ -30,11 +69,9 @@ object InMemoryGoodsRepository : GoodsRepository {
     }
 
     override fun getGoodsByCriteria(
-        category: GoodsCategory,
-        expired: ExpirationFilter
+        category: GoodsCategory, expired: ExpirationFilter
     ): List<Goods> {
-        return goodsData
-            .filter { goods ->
+        return goodsData.filter { goods ->
                 val categoryMatch = category == GoodsCategory.ALL || goods.category == category
                 val statusMatch = when (expired) {
                     ExpirationFilter.VALID -> !goods.isExpired()
@@ -42,8 +79,8 @@ object InMemoryGoodsRepository : GoodsRepository {
                     ExpirationFilter.ALL -> true
                 }
                 (categoryMatch && statusMatch)
-            }
-            .map { it.copy()
+            }.map {
+                it.copy()
             }
     }
 

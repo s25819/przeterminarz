@@ -12,6 +12,11 @@ enum class GoodsCategory(private val displayNameCode: Int) {
     MEDICINE(R.string.medicine),
     COSMETICS(R.string.cosmetics);
 
+    fun getDefaultImage(): Int {
+        return getDefaultImage(this)
+    }
+
+
     fun getDisplayName(context: Context): String {
         return context.getString(displayNameCode)
     }
@@ -30,6 +35,15 @@ enum class GoodsCategory(private val displayNameCode: Int) {
             R.string.cosmetics to COSMETICS,
             R.string.all to ALL
         )
+
+        fun getDefaultImage(category: GoodsCategory): Int {
+            return when (category) {
+                GROCERY -> R.mipmap.groceries_default
+                MEDICINE -> R.mipmap.medicine_default
+                COSMETICS -> R.mipmap.cosmetics_default
+                ALL -> R.mipmap.ic_launcher
+            }
+        }
 
         fun getCategory(resourceId: Int): GoodsCategory = categoryNameToCategoryMap[resourceId]
             ?: throw CategoryNotFoundException("Nie znaleziono kategorii o nazwie $resourceId")

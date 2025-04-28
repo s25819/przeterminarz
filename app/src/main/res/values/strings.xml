@@ -26,6 +26,8 @@
     <string name="manage_goods_category_label">Kategoria</string>
     <string name="manage_goods_quantity_label">Ilość</string>
     <string name="manage_goods_pick_image_label">Wybierz zdjęcie</string>
+    <string name="manage_goods_button_add_goods_label">Dodaj</string>
+    <string name="manage_goods_button_edit_goods_label">Edytuj</string>
     <string name="goods_counter_label">Ilość produktów na liście %d</string>
     <string name="goods_expired_toast">Towar %s jest przeterminowany i nie można go edytować</string>
     <string name="invalid_date_toast">Wybrana data nie może być wcześniejsza niż obecna</string>
@@ -38,4 +40,7 @@
     <string name="goods_deleted">Produkt %s został usunięty</string>
     <string name="goods_not_deleted">Produkt %s pozostał na liście</string>
     <string name="goods_already_thrown_away">Produkt %s jest już wyrzucony</string>
+
+    <string name="invalid_input_toast">Błędne dane</string>
+    <string name="success_toast">Dane zapisane</string>
 </resources>

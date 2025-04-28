@@ -16,7 +16,7 @@ class GoodsListViewModel : ViewModel() {
 
     val category = MutableLiveData(GoodsCategory.ALL)
     val filter = MutableLiveData(ExpirationFilter.ALL)
-    val goods = MutableLiveData<List<Goods>>(emptyList())
+    val goodsList = MutableLiveData<List<Goods>>(emptyList())
     val navigation = MutableLiveData<Destination>()
 
     fun setCategory(newCategory: GoodsCategory) {
@@ -37,7 +37,7 @@ class GoodsListViewModel : ViewModel() {
         val cat = category.value ?: GoodsCategory.ALL
         val filt = filter.value ?: ExpirationFilter.ALL
         val filtered = repository.getGoodsByCriteria(cat, filt).sortedBy { it.expirationDate }
-        goods.value = filtered
+        goodsList.value = filtered
     }
 
     fun onAddGoods(goods: Goods) {
