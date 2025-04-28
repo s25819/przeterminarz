@@ -27,12 +27,14 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
     val goodsCategory = MutableLiveData<GoodsCategory>()
     val goodsQuantity = MutableLiveData<String>()
     val goodsExpirationDate = MutableLiveData<String>()
-    val goodsImageThumbnail = MutableLiveData<String?>() // ścieżka pliku lub null
+    val goodsImageThumbnail = MutableLiveData<String?>()
     val goodsManageButtonText = MutableLiveData<Int>()
 
     val navigation = MutableLiveData<Destination>()
 
     fun init(id: Int?) {
+        Log.i(TAG, "Wywołano init z id: $id")
+
         viewModelScope.launch {
             currentGoods = id?.let { goodsRepository.getGoodsById(it) }?.also { goods ->
                 goodsName.value = goods.name
@@ -42,11 +44,9 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
                 goodsImageThumbnail.value = goods.imageName
             }
 
-            goodsManageButtonText.value = if (currentGoods == null) {
-                R.string.manage_goods_button_add_goods_label
-            } else {
+            goodsManageButtonText.value = currentGoods?.run {
                 R.string.manage_goods_button_edit_goods_label
-            }
+            } ?: run { R.string.manage_goods_button_add_goods_label }
         }
     }
 
@@ -55,7 +55,7 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
             val id = currentGoods?.id ?: 0
             val quantity = goodsQuantity.value?.toIntOrNull()
 
-            val finalBitmap = loadImageOrDefault(selectedCategory)
+            val imageBitmap = loadImageOrDefault(selectedCategory)
 
             val goods = Goods(
                 id = id,
@@ -63,7 +63,7 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
                 category = selectedCategory,
                 quantity = quantity,
                 expirationDate = convertDate(),
-                image = finalBitmap,
+                image = imageBitmap,
                 imageName = goodsImageThumbnail.value ?: "",
                 markedAsThrownAway = false
             )
@@ -78,7 +78,8 @@ class ManageGoodsViewModel(application: Application) : AndroidViewModel(applicat
 
         return if (!imagePath.isNullOrEmpty()) {
             try {
-                BitmapFactory.decodeFile(imagePath) ?: GoodsCategory.getDefaultImage(getApplication(), category)
+                BitmapFactory.decodeFile(imagePath)
+                    ?: GoodsCategory.getDefaultImage(getApplication(), category)
             } catch (e: IOException) {
                 Log.e(TAG, "Błąd w ładowaniu obrazka: ${e.message}")
                 GoodsCategory.getDefaultImage(getApplication(), category)

@@ -1,10 +1,10 @@
 package pl.edu.pjatk.s25819.przeterminarz.fragments
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +18,12 @@ import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.adapters.GoodsCategoryAdapter
 import pl.edu.pjatk.s25819.przeterminarz.databinding.FragmentManageGoodsBinding
 import pl.edu.pjatk.s25819.przeterminarz.model.FormType
-import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
 import pl.edu.pjatk.s25819.przeterminarz.viewmodel.ManageGoodsViewModel
 import java.time.LocalDate
 
 private const val TYPE_KEY = "type"
 
-@SuppressLint("LogNotTimber")
 class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var binding: FragmentManageGoodsBinding
@@ -59,8 +57,13 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         } ?: FormType.New
 
-        if (formType is FormType.Edit) {
-            viewModel.init((formType as FormType.Edit).id)
+        when (formType) {
+            is FormType.Edit -> {
+                viewModel.init((formType as FormType.Edit).id)
+            }
+            is FormType.New -> {
+                viewModel.init(null)
+            }
         }
     }
 
@@ -75,7 +78,13 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun observeViewModel() {
         viewModel.navigation.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Nawiguję do $it")
             it.resolve(findNavController())
+        }
+
+        viewModel.goodsManageButtonText.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Manage goods button text changed to $it")
+            binding.manageGoodsSaveButton.text = getString(it)
         }
     }
 
@@ -84,9 +93,7 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             adapter = GoodsCategoryAdapter(
                 requireContext(),
                 GoodsCategory.entries.filter { it != GoodsCategory.ALL }
-            ).also {
-                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            }
+            )
         }
     }
 
@@ -135,13 +142,6 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setupSaveButton() {
         binding.manageGoodsSaveButton.apply {
-            text = getString(
-                if (formType is FormType.Edit)
-                    R.string.manage_goods_button_edit_goods_label
-                else
-                    R.string.manage_goods_button_add_goods_label
-            )
-
             setOnClickListener {
                 if (!isFieldsValid()) {
                     Toast.makeText(
@@ -171,19 +171,25 @@ class ManageGoodsFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupCategoryChangeListener() {
-        binding.manageGoodsCategorySpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedCategory = parent.getItemAtPosition(position) as GoodsCategory
+        binding.manageGoodsCategorySpinner.onItemSelectedListener =
+            object : android.widget.AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedCategory = parent.getItemAtPosition(position) as GoodsCategory
 
-                // Jeśli użytkownik NIE wybrał jeszcze własnego obrazka
-                if (viewModel.goodsImageThumbnail.value.isNullOrEmpty()) {
-                    val bitmap = GoodsCategory.getDefaultImage(requireContext(), selectedCategory)
-                    binding.manageGoodsImageView.setImageBitmap(bitmap)
+                    if (viewModel.goodsImageThumbnail.value.isNullOrEmpty()) {
+                        val bitmap =
+                            GoodsCategory.getDefaultImage(requireContext(), selectedCategory)
+                        binding.manageGoodsImageView.setImageBitmap(bitmap)
+                    }
                 }
-            }
 
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
-        })
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+            }
     }
 
     companion object {

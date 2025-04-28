@@ -34,15 +34,10 @@ class GoodsViewHolder(private val binding: GoodsItemLayoutBinding) :
         onCardLongClick: (Goods) -> Boolean
     ): Unit = with(binding) {
         goodsName.text = goods.name
-
-        // Poprawka dla Bitmapy:
         goodsImage.setImageBitmap(goods.image)
-
         expirationDateValue.text = goods.expirationDate.toString()
         goodsCategoryValue.text = goods.category.getDisplayName(root.context)
-
         setValidLabel(goods)
-
         quantityGroup.visibility = if (goods.hasQuantity()) View.VISIBLE else View.GONE
         quantityValue.text = goods.quantity?.toString() ?: ""
 
