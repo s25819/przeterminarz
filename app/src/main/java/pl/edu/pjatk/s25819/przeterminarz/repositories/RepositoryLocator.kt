@@ -5,9 +5,8 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import pl.edu.pjatk.s25819.przeterminarz.database.GoodsDatabase
-import pl.edu.pjatk.s25819.przeterminarz.model.Goods
-import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
-import java.time.LocalDate
+import pl.edu.pjatk.s25819.przeterminarz.repositories.impl.DBGoodsRepository
+import pl.edu.pjatk.s25819.przeterminarz.repositories.sampledata.SampleData.sampleGoods
 
 object RepositoryLocator {
 
@@ -31,36 +30,6 @@ object RepositoryLocator {
             for (goods in existingGoods) {
                 goodsRepository.removeGoods(goods)
             }
-
-            val sampleGoods = listOf(
-                Goods(
-                    id = 0,
-                    name = "Mleko 2%",
-                    category = GoodsCategory.GROCERY,
-                    quantity = 2,
-                    expirationDate = LocalDate.now().minusDays(5),
-                    thumbnail = null,
-                    markedAsThrownAway = false
-                ),
-                Goods(
-                    id = 0,
-                    name = "Witaminy C",
-                    category = GoodsCategory.MEDICINE,
-                    quantity = 1,
-                    expirationDate = LocalDate.now().plusMonths(2),
-                    thumbnail = null,
-                    markedAsThrownAway = false
-                ),
-                Goods(
-                    id = 0,
-                    name = "Szampon",
-                    category = GoodsCategory.COSMETICS,
-                    quantity = 1,
-                    expirationDate = LocalDate.now().plusMonths(12),
-                    thumbnail = null,
-                    markedAsThrownAway = false
-                )
-            )
 
             sampleGoods.forEach { goods ->
                 goodsRepository.saveGoods(goods)

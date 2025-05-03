@@ -1,9 +1,10 @@
-package pl.edu.pjatk.s25819.przeterminarz.repositories
+package pl.edu.pjatk.s25819.przeterminarz.repositories.impl
 
 import pl.edu.pjatk.s25819.przeterminarz.dao.GoodsDao
 import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
+import pl.edu.pjatk.s25819.przeterminarz.repositories.GoodsRepository
 import pl.edu.pjatk.s25819.przeterminarz.repositories.mappers.toEntity
 import pl.edu.pjatk.s25819.przeterminarz.repositories.mappers.toGoods
 
@@ -34,7 +35,7 @@ class DBGoodsRepository(private val goodsDao: GoodsDao) : GoodsRepository {
 
     override suspend fun getGoodsById(id: Int): Goods {
         return goodsDao.getGoodsById(id)?.toGoods()
-            ?: throw IllegalArgumentException("Goods with ID $id not found")
+            ?: throw IllegalArgumentException("Produkt z $id nie został znaleziony")
     }
 
     override suspend fun saveGoods(goods: Goods) {

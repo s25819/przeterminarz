@@ -3,7 +3,6 @@ package pl.edu.pjatk.s25819.przeterminarz.model
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import pl.edu.pjatk.s25819.przeterminarz.R
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.CategoryNotFoundException
 
@@ -20,7 +19,6 @@ enum class GoodsCategory(private val displayNameCode: Int) {
 
     override fun toString(): String {
         return displayNameCode.let {
-            // Trzeba przekazać kontekst gdzieś indziej — tymczasowo null-safe
             "[GoodsCategory]"
         }
     }

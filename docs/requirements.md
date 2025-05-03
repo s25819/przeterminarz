@@ -10,12 +10,11 @@ Aplikacja ma pomóc w redukcji marnowania produktów poprzez śledzenie ich dat 
 
 # Ekran listy:
 
-TODO
-- element listy powinny zawierać: zdjęcie produktu, nazwę produktu, termin ważności, kategorię, ilość (jeśli została określona) oraz informację czy produkt został wyrzucony (jeśli wygasła jego data przydatności) [2p]
-  - TODO: Jeszcze obsługa zdjęć
-
-
 DONE
+
+- element listy powinny zawierać: zdjęcie produktu, nazwę produktu, termin ważności, kategorię,
+  ilość (jeśli została określona) oraz informację czy produkt został wyrzucony (jeśli wygasła jego
+  data przydatności) [2p]
 - aplikacja powinna wyświetlać listę wprowadzonych produktów z możliwością filtrowania według kategorii oraz stanu produktu (ważny/przeterminowany) [2p] (DONE)
 - lista powinna być automatycznie sortowana według daty ważności produktów, od najkrótszej do najdłuższej [1p] (DONE)
 - ekran powinien zawierać podsumowanie dla puli prezentowanych elementów (ich liczbę) [1p] (DONE)
@@ -27,13 +26,13 @@ DONE
 
 # Ekran dodawania/edycji produktu [6p]:
 
-TODO
+DONE
 - zdjęcie produktu powinno być wybierane z galerii zdjęć i zapisywane w bazie z produktami jako miniaturka [brak spełnienia kryterium: -2p]
 - Aplikacja powinna posiadać zadbaną szatę graficzną i responsywny układ (np: ikony zamiast tekstu na przyciskach oraz logo na ekranie listy, brak najeżdżających na siebie przycisków, lista przewijana, itp.). Dodatkowo wykorzystane w aplikacji teksty powinny być umieszone w plikach z zasobami.[2p]
- -  Przed poddaniem projektu ocenie należy przygotować zestaw danych przykładowych wczytywany każdorazowo podczas tworzenia bazy danych, w celu zaprezentowania wszystkich funkcjonalności. (najlepiej dane te umieścić bezpośrednio w kodzie aplikacji) [brak spełnienia kryterium: -2p]
+- Przed poddaniem projektu ocenie należy przygotować zestaw danych przykładowych wczytywany
+  każdorazowo podczas tworzenia bazy danych, w celu zaprezentowania wszystkich funkcjonalności. (
+  najlepiej dane te umieścić bezpośrednio w kodzie aplikacji) [brak spełnienia kryterium: -2p]
 
-
-DONE
 - Zapisywanie danych na urządzeniu należy zrealizować z wykorzystaniem mechanizmu lokalnej bazy danych np: SQLite/Room. [3p]
 - uruchamia się w następstwie kliknięcia przycisku dodającego lub w przypadku edycji istniejącego wpisu na liście (DONE)
 - ekran ten umożliwia nadanie/zmianę danych wpisu oraz zawiera  przycisk zapisujący dokonane zmiany/wprowadzone dane  (DONE)

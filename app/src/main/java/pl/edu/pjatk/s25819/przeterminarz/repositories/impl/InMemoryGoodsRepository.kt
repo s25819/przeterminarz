@@ -1,9 +1,10 @@
-package pl.edu.pjatk.s25819.przeterminarz.repositories
+package pl.edu.pjatk.s25819.przeterminarz.repositories.impl
 
 import pl.edu.pjatk.s25819.przeterminarz.exceptions.GoodsNotFoundException
 import pl.edu.pjatk.s25819.przeterminarz.model.ExpirationFilter
 import pl.edu.pjatk.s25819.przeterminarz.model.Goods
 import pl.edu.pjatk.s25819.przeterminarz.model.GoodsCategory
+import pl.edu.pjatk.s25819.przeterminarz.repositories.GoodsRepository
 import java.time.LocalDate
 
 object InMemoryGoodsRepository : GoodsRepository {
